@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  MatchFour
-//
-//  Created by Omer Sagy on 11/15/18.
-//  Copyright © 2018 Omer Sagy. All rights reserved.
-//
-
 import SpriteKit
 import UIKit
 
@@ -14,13 +6,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var gameView: SKView!
     @IBOutlet weak var labelInput: UITextField!
 
-    let scene = SKScene(
-        size: CGSize(width: 277, height: 262))
+    var scene: GameScene!
 
     let label = SKLabelNode(text: "SpriteKit")
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        scene = GameScene(
+            size: CGSize(
+                width: gameView.frame.width,
+                height: gameView.frame.height))
+
         label.position = CGPoint(
             x: scene.size.width / 2,
             y: scene.size.height / 2)
@@ -40,3 +37,7 @@ class ViewController: UIViewController {
     }
 }
 
+
+class GameScene : SKScene {
+
+}
