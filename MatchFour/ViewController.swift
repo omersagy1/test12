@@ -3,41 +3,29 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var gameView: SKView!
-    @IBOutlet weak var labelInput: UITextField!
-
-    var scene: GameScene!
-
-    let label = SKLabelNode(text: "SpriteKit")
+    var gameView: SKView!
+    var game: Game!
+    var scene: SKScene!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        scene = GameScene(
-            size: CGSize(
-                width: gameView.frame.width,
-                height: gameView.frame.height))
+        gameView = view as? SKView
 
-        label.position = CGPoint(
-            x: scene.size.width / 2,
-            y: scene.size.height / 2)
-        scene.addChild(label)
+        scene = SKScene(size: gameView.bounds.size)
+        game = Game(scene: scene)
 
-        render()
+        scene.delegate = game
+
+        game.setUp()
+        gameView.presentScene(scene)
     }
 
     @IBAction func labelChanged(_ sender: UITextField) {
-        label.text = sender.text
+        guard let newText = sender.text else {
+            return
+        }
+        game.handleMessage(.changeLabelText(newText))
         view.endEditing(true)
-        render()
     }
-
-    func render() {
-        gameView.presentScene(scene)
-    }
-}
-
-
-class GameScene : SKScene {
-
 }
