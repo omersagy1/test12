@@ -28,7 +28,8 @@ class Game : SKScene {
     }
 
     func highlightJewel(_ jewel: Jewel) {
-        print("touched a \(jewel.type)")
+        guard let pos: (Int, Int) = model.positionOfJewel(jewel) else { return }
+        print("touched a \(jewel.type) at \(pos.0),\(pos.1)")
     }
 
 }

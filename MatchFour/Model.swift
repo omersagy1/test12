@@ -23,6 +23,17 @@ struct Model {
             matchCount[jewel] = 0
         }
     }
+
+    func positionOfJewel(_ jewel: Jewel) -> (Int, Int)? {
+        for rowIndex in 0..<numRows {
+            for colIndex in 0..<numCols {
+                if jewel === grid[rowIndex][colIndex] {
+                    return (rowIndex, colIndex)
+                }
+            }
+        }
+        return nil
+    }
 }
 
 
@@ -33,7 +44,7 @@ protocol GameEntity {
 }
 
 
-struct Jewel : GameEntity {
+class Jewel : GameEntity {
 
     var node: SKSpriteNode
     var type: JewelType
