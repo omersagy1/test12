@@ -11,12 +11,6 @@ class Game : SKScene {
         self.addChild(view)
     }
 
-    func handleMessage(_ msg: Message) {
-        switch msg {
-        case .highlightJewel(let jewel):
-            self.highlightJewel(jewel)
-        }
-    }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
@@ -24,17 +18,7 @@ class Game : SKScene {
         guard let node = self.nodes(at: location).first else { return }
         guard let jewel = node.userData?["modelObject"] as? Jewel else { return }
 
-        handleMessage(.highlightJewel(jewel))
-    }
-
-    func highlightJewel(_ jewel: Jewel) {
-        guard let pos: (Int, Int) = model.positionOfJewel(jewel) else { return }
-        print("touched a \(jewel.type) at \(pos.0),\(pos.1)")
+        Update.handleMessage(message: .highlightJewel(jewel), model: model)
     }
 
 }
-
-
-
-
-
