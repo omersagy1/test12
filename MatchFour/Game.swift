@@ -13,8 +13,8 @@ class Game : SKScene {
 
     func handleMessage(_ msg: Message) {
         switch msg {
-        case .highlightJewel(let row, let col):
-            self.highlightJewel(row, col)
+        case .highlightJewel(let jewel):
+            self.highlightJewel(jewel)
         }
     }
 
@@ -22,13 +22,13 @@ class Game : SKScene {
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
         guard let node = self.nodes(at: location).first else { return }
-        guard let row: Int = node.userData?["row"] as? Int else { return }
-        guard let col: Int = node.userData?["col"] as? Int else { return }
-        handleMessage(.highlightJewel(row, col))
+        guard let jewel = node.userData?["modelObject"] as? Jewel else { return }
+
+        handleMessage(.highlightJewel(jewel))
     }
 
-    func highlightJewel(_ row: Int, _ col: Int) {
-        print("touched jewel at \(row), \(col)")
+    func highlightJewel(_ jewel: Jewel) {
+        print("touched a \(jewel.type)")
     }
 
 }

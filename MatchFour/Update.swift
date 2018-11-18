@@ -2,5 +2,5 @@ import Foundation
 
 
 enum Message {
-    case highlightJewel(Int, Int) // row, col
+    case highlightJewel(Jewel) // row, col
 }

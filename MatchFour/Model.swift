@@ -29,18 +29,19 @@ struct Model {
 // A GameEntity is an object that can be associated with
 // a specific node in the scene tree.
 protocol GameEntity {
-    var node: SKNode { get }
+    var node: SKSpriteNode { get }
 }
 
 
 struct Jewel : GameEntity {
 
-    var node: SKNode
+    var node: SKSpriteNode
     var type: JewelType
 
     init(type: JewelType) {
         self.type = type
         node = SKSpriteNode()
+        node.userData = ["modelObject": self]
     }
 
 }

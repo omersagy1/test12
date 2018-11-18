@@ -18,19 +18,13 @@ func render(model: Model, sceneSize: CGSize) -> SKNode {
 
     for (rowIndex, row) in model.grid.enumerated() {
         for (colIndex, jewel) in row.enumerated() {
-            let rect = SKSpriteNode(
-                color: jewelColor(jewel.type),
-                size: CGSize(width: sideLength,
-                             height: sideLength))
-
-            rect.position = add(
+            jewel.node.color = jewelColor(jewel.type)
+            jewel.node.size = CGSize(width: sideLength, height: sideLength)
+            jewel.node.position = add(
                 p1: offset,
                 p2: CGPoint(x: (sideLength + spacing) * rowIndex,
                             y: (sideLength + spacing) * colIndex))
-
-            rect.userData = ["row": rowIndex, "col": colIndex]
-
-            root.addChild(rect)
+            root.addChild(jewel.node)
         }
     }
     return root
