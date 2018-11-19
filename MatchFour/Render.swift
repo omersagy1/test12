@@ -70,6 +70,6 @@ func add(p1: CGPoint, p2: CGPoint) -> CGPoint {
 
 
 struct renderConstants {
-    static let spacing = 4  // px
-    static let sideLength = 30
+    static let spacing = 5  // px
+    static let sideLength = 45
 }

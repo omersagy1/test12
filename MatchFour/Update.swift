@@ -16,8 +16,14 @@ struct Update {
     }
 
     static func highlightJewel(jewel: Jewel, model: Model) {
-        guard let pos: (Int, Int) = model.positionOfJewel(jewel) else { return }
-        print("touched a \(jewel.type) at \(pos.0),\(pos.1)")
+        switch model.state {
+        case .awaitingFirstSelection:
+            model.select(jewel: jewel)
+        case .awaitingSwap(_):
+            model.swap(secondJewel: jewel)
+        default:
+            print("ignoring this jewel tap!")
+        }
     }
 
 }

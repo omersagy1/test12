@@ -4,8 +4,8 @@ import SpriteKit
 
 class Model {
 
-    let numRows = 10
-    let numCols = 10
+    let numRows = 8
+    let numCols = 8
 
     // The grid is laid out like the SpriteKit coordinate system.
     // grid[0][0] is the bottom-left corner.
@@ -40,6 +40,35 @@ class Model {
         }
         return nil
     }
+
+    func select(jewel: Jewel) {
+        self.state = .awaitingSwap(jewel)
+    }
+
+    func swap(secondJewel: Jewel) {
+        switch self.state {
+        case .awaitingSwap(let firstJewel):
+            guard let pos1: (Int, Int) = positionOfJewel(firstJewel) else { return }
+            guard let pos2: (Int, Int) = positionOfJewel(secondJewel) else { return }
+            if abs(pos1.0 - pos2.0) + abs(pos1.1 - pos2.1) <= 1 {
+                self.grid[pos1.0][pos1.1] = secondJewel
+                self.grid[pos2.0][pos2.1] = firstJewel
+
+                let gpos1 = firstJewel.node.position
+                firstJewel.node.position = secondJewel.node.position
+                secondJewel.node.position = gpos1
+
+                self.state = .awaitingFirstSelection
+            } else {
+                // If we can't swap with the second jewel, we should select
+                // it and it will become the new 'first' jewel.
+                self.select(jewel: secondJewel)
+            }
+        default:
+            break
+        }
+    }
+
 }
 
 
