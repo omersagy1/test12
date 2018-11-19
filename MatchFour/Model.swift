@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 
-struct Model {
+class Model {
 
     let numRows = 10
     let numCols = 10
@@ -10,7 +10,13 @@ struct Model {
     // The grid is laid out like the SpriteKit coordinate system.
     // grid[0][0] is the bottom-left corner.
     var grid: [[Jewel]] = []
+
+    // The number of matched jewels of a particular type.
+    // matchCount[.emerald] is the number of emeralds scored
+    // through matching.
     var matchCount: [JewelType: Int] = [:]
+
+    var state: GameState = .awaitingFirstSelection
 
     init() {
         for rowIndex in 0..<numRows {
@@ -37,22 +43,44 @@ struct Model {
 }
 
 
+enum GameState {
+
+    // We are waiting for the user to pick his first jewel.
+    case awaitingFirstSelection
+
+    // We are waiting for the user to pick the jewel to swap.
+    // Here we hold a reference to the *first* jewel.
+    case awaitingSwap(Jewel)
+
+    // We ignore user input until the animations are complete.
+    // This state is entered after we initiate a swap.
+    case animating
+
+}
+
+
 // A GameEntity is an object that can be associated with
 // a specific node in the scene tree.
-protocol GameEntity {
-    var node: SKSpriteNode { get }
+class GameEntity {
+
+    static let modelObjectKey = "modelObject"
+
+    let node = SKSpriteNode()
+
+    init() {
+        node.userData = [GameEntity.modelObjectKey: self]
+    }
+
 }
 
 
 class Jewel : GameEntity {
 
-    var node: SKSpriteNode
     var type: JewelType
 
     init(type: JewelType) {
         self.type = type
-        node = SKSpriteNode()
-        node.userData = ["modelObject": self]
+        super.init()
     }
 
 }
