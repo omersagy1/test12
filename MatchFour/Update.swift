@@ -22,8 +22,7 @@ struct Update {
         case .awaitingSwap(_):
             model.swap(secondJewel: jewel)
         default:
-            print("ignoring this jewel tap!")
+            break
         }
     }
-
 }

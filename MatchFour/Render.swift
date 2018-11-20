@@ -71,6 +71,8 @@ func jewelColor(_ jewel: JewelType) -> UIColor {
         return .blue
     case .topaz:
         return .orange
+    case .amethyst:
+        return .purple
     }
 }
 

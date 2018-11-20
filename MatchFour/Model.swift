@@ -102,7 +102,7 @@ class GameEntity {
     // name allows us to identify the root node.
     static let rootNodeName = "entityRoot"
 
-    let node = SKSpriteNode()
+    let node = SKNode()
 
     init() {
         node.name = GameEntity.rootNodeName
@@ -145,6 +145,7 @@ enum JewelType : CaseIterable {
     case sapphire
     case ruby
     case diamond
+    case amethyst
 }
 
 
