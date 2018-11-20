@@ -43,6 +43,7 @@ class Model {
 
     func select(jewel: Jewel) {
         self.state = .awaitingSwap(jewel)
+        jewel.select()
     }
 
     func swap(secondJewel: Jewel) {
@@ -59,9 +60,12 @@ class Model {
                 secondJewel.node.position = gpos1
 
                 self.state = .awaitingFirstSelection
+                firstJewel.deselect()
+                secondJewel.deselect()
             } else {
                 // If we can't swap with the second jewel, we should select
                 // it and it will become the new 'first' jewel.
+                firstJewel.deselect()
                 self.select(jewel: secondJewel)
             }
         default:
@@ -94,9 +98,14 @@ class GameEntity {
 
     static let modelObjectKey = "modelObject"
 
+    // Every game entity is a tree of nodes. This
+    // name allows us to identify the root node.
+    static let rootNodeName = "entityRoot"
+
     let node = SKSpriteNode()
 
     init() {
+        node.name = GameEntity.rootNodeName
         node.userData = [GameEntity.modelObjectKey: self]
     }
 
@@ -105,11 +114,26 @@ class GameEntity {
 
 class Jewel : GameEntity {
 
-    var type: JewelType
+    let type: JewelType
+    private var selected: Bool = false
 
     init(type: JewelType) {
         self.type = type
         super.init()
+    }
+
+    func select() {
+        selected = true
+        renderJewel(self)
+    }
+
+    func deselect() {
+        selected = false
+        renderJewel(self)
+    }
+
+    func isSelected() -> Bool {
+        return self.selected
     }
 
 }

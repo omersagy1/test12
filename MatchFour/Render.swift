@@ -15,19 +15,47 @@ func render(model: Model, sceneSize: CGSize) -> SKNode {
         sideLength: Double(sideLength),
         spacing: Double(spacing))
 
-
     for (rowIndex, row) in model.grid.enumerated() {
         for (colIndex, jewel) in row.enumerated() {
-            jewel.node.color = jewelColor(jewel.type)
-            jewel.node.size = CGSize(width: sideLength, height: sideLength)
-            jewel.node.position = add(
+            let jewelPos = add(
                 p1: offset,
                 p2: CGPoint(x: (sideLength + spacing) * rowIndex,
                             y: (sideLength + spacing) * colIndex))
+
+            renderJewel(jewel)
+            jewel.node.position = jewelPos
             root.addChild(jewel.node)
         }
     }
     return root
+}
+
+
+func renderJewel(_ jewel: Jewel) {
+
+    // Render the jewel from scratch.
+    jewel.node.removeAllChildren()
+
+    if !jewel.isSelected() {
+        let coloredSquare = SKSpriteNode()
+        coloredSquare.color = jewelColor(jewel.type)
+        coloredSquare.size = CGSize(width: renderConstants.sideLength,
+                                 height: renderConstants.sideLength)
+        jewel.node.addChild(coloredSquare)
+    } else {
+        let frameNode = SKSpriteNode()
+        frameNode.color = .yellow
+        frameNode.size = CGSize(width: renderConstants.sideLength,
+                                height: renderConstants.sideLength)
+
+        let coloredSquare = SKSpriteNode()
+        coloredSquare.color = jewelColor(jewel.type)
+        coloredSquare.size = CGSize(width: renderConstants.sideLength - 5,
+                                    height: renderConstants.sideLength - 5)
+
+        jewel.node.addChild(frameNode)
+        frameNode.addChild(coloredSquare)
+    }
 }
 
 
@@ -73,3 +101,4 @@ struct renderConstants {
     static let spacing = 5  // px
     static let sideLength = 45
 }
+
